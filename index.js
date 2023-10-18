@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const { letsGoTeam, teamSucks } = require('./fandom.js');
+const { theAce, theDud, score } = require('./players.js');
 const fs = require('fs');
 
 // Set Up Routes
@@ -20,6 +21,9 @@ app.get('/read', (req, res) => {
   })
 })
 
+app.get('/marbles', (req, res) => {
+  return res.json({ message: "Let's get Marbling"});
+})
 // Local Routes
 app.get('/letsgoteam/:team', (req, res) => {
   let answer = letsGoTeam(String(req.params.team));
@@ -35,6 +39,20 @@ app.get('/teamsucks/:team', (req, res) => {
   });
 });
 
+app.get('/ace/:player', (req, res) => {
+  let answer = theAce(String(req.params.player));
+  return res.json({ answer: answer});
+})
+
+app.get('/dud/:player', (req, res) => {
+  let answer = theDud(String(req.params.player));
+  return res.json({ answer: answer});
+})
+
+app.get('/score/:player/:score', (req, res) => {
+  let answer = score(String(req.params.player), req.params.score);
+  return res.json({ answer: answer});
+})
 // Third-Party Routes
 app.get('/', (req, res) => {
   return res.json({
